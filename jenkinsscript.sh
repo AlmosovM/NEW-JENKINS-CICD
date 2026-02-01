@@ -7,11 +7,9 @@ which python3
 
 echo "### Run unit tests using stdlib unittest ###"
 
-# Ensure report directory exists
 mkdir -p xmlReport
 
-# Run unittest discovery and output results
-python3 - << 'EOF'
+python3 <<'EOF'
 import unittest
 import sys
 import xml.etree.ElementTree as ET
@@ -23,5 +21,19 @@ suite = loader.discover("utests")
 runner = unittest.TextTestRunner(verbosity=2)
 result = runner.run(suite)
 
-# Generate minimal JUnit XML
-testsui
+testsuite = ET.Element(
+    "testsuite",
+    name="unittest",
+    tests=str(result.testsRun),
+    errors=str(len(result.errors)),
+    failures=str(len(result.failures)),
+    timestamp=datetime.utcnow().isoformat()
+)
+
+tree = ET.ElementTree(testsuite)
+tree.write("xmlReport/output.xml", encoding="utf-8", xml_declaration=True)
+
+sys.exit(0 if result.wasSuccessful() else 1)
+EOF
+
+echo "### Done ###"
