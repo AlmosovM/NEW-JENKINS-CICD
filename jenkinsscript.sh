@@ -13,7 +13,7 @@ python3 <<'EOF'
 import unittest
 import sys
 import xml.etree.ElementTree as ET
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 
 loader = unittest.TestLoader()
 suite = loader.discover("utests", pattern="test*.py")
@@ -25,7 +25,6 @@ tests_run = result.testsRun
 errors = len(result.errors)
 failures = len(result.failures)
 
-testsuite = ET.Element(
-    "testsuite",
-    {
-        "name": "
+testsuite = ET.Element("testsuite")
+testsuite.set("name", "unittest")
+testsuite.set("tests", str(max(1, te
