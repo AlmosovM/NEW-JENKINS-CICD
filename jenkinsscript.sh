@@ -5,16 +5,13 @@ echo "### Python info ###"
 python3 --version
 which python3
 
-echo "### Create virtual environment ###"
-python3 -m venv venv
-source venv/bin/activate
+echo "### Install dependencies (user space) ###"
+python3 -m pip install --user --upgrade pip
+python3 -m pip install --user -r requirements.txt
+python3 -m pip install --user pytest pytest-cov
 
-echo "### Upgrade pip ###"
-pip install --upgrade pip
-
-echo "### Install dependencies ###"
-pip install -r requirements.txt
-pip install pytest pytest-cov
+# Make sure user-installed binaries are on PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 echo "### Run tests + coverage ###"
 pytest utests \
@@ -23,4 +20,3 @@ pytest utests \
   --junitxml=xmlReport/output.xml
 
 echo "### Done ###"
-deactivate
