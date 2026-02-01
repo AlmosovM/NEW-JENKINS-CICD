@@ -10,7 +10,7 @@ python3 -m pip install --user --upgrade pip
 python3 -m pip install --user -r requirements.txt
 python3 -m pip install --user pytest pytest-cov
 
-# Make sure user-installed binaries are on PATH
+# Ensure user-installed binaries are on PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 echo "### Run tests + coverage ###"
