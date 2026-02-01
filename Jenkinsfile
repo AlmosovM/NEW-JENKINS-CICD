@@ -25,7 +25,8 @@ pipeline {
 	stage ("Publish Code Coverage") {
             steps{
 				echo "Publish code coverage"
-				cobertura coberturaXmlReportFiles: 'coverage.xml'
+				cobertura path: 'coverage.xml'
+
 
 
             }
@@ -33,3 +34,4 @@ pipeline {
     }
 
 }
+
