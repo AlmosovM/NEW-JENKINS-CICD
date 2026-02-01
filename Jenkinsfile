@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
 				echo "Checkout"
-				//git branch: 'main', url: 'https://github.com/kss7/SmartFlaskAPP.git'
+				//git branch: 'main', url: 'https://github.com/AlmosovM/NEW-JENKINS-CICD.git'
 				sh 'ls -l'
             }
         }
@@ -31,4 +31,5 @@ pipeline {
             }
         }
     }
+
 }
