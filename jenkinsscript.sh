@@ -5,21 +5,23 @@ echo "### Python info ###"
 python3 --version
 which python3
 
-# Ensure pipx is available
-export PATH="$HOME/.local/bin:$PATH"
+echo "### Run unit tests using stdlib unittest ###"
 
-echo "### Install pipx (user space) ###"
-python3 -m pip install --user pipx --break-system-packages || true
-pipx ensurepath || true
+# Ensure report directory exists
+mkdir -p xmlReport
 
-echo "### Install test tools via pipx ###"
-pipx install pytest || true
-pipx install pytest-cov || true
+# Run unittest discovery and output results
+python3 - << 'EOF'
+import unittest
+import sys
+import xml.etree.ElementTree as ET
+from datetime import datetime
 
-echo "### Run tests + coverage ###"
-pipx run pytest utests \
-  --cov=main \
-  --cov-report=xml \
-  --junitxml=xmlReport/output.xml
+loader = unittest.TestLoader()
+suite = loader.discover("utests")
 
-echo "### Done ###"
+runner = unittest.TextTestRunner(verbosity=2)
+result = runner.run(suite)
+
+# Generate minimal JUnit XML
+testsui
