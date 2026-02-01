@@ -1,29 +1,26 @@
 #!/bin/bash
-. ~/.bashrc
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
- eval "$(pyenv init --path)"
-fi
+set -e
 
-pyenv versions
-
-pyenv global 3.10.0
-python3 -m venv myenv
-source myenv/bin/activate
-echo '#### Checking python ####'
+echo "### Python info ###"
+python3 --version
 which python3
-python3 -V
 
-echo '#### Install requirements ####'
-pip install -r ./requirements.txt
-pip install pytest-cov
+echo "### Create virtual environment ###"
+python3 -m venv venv
+source venv/bin/activate
 
-echo '#### Run tests ####'
-pytest --cov=main utests --junitxml=./xmlReport/output.xml
-python -m coverage xml
+echo "### Upgrade pip ###"
+pip install --upgrade pip
 
-echo '### deactivate virtual environment ###'
+echo "### Install dependencies ###"
+pip install -r requirements.txt
+pip install pytest pytest-cov
+
+echo "### Run tests + coverage ###"
+pytest utests \
+  --cov=main \
+  --cov-report=xml \
+  --junitxml=xmlReport/output.xml
+
+echo "### Done ###"
 deactivate
-echo '### change pyenv to system ###'
-pyenv global system
