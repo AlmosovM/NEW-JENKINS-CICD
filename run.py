@@ -4,6 +4,9 @@ from main import create_app
 # using the standard configuration defined in /instance/flask.cfg
 ## Run as python run.py
 
-if __name__ == '__main__':
-    app = create_app('flask.cfg')
-    app.run(host='0.0.0.0')
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent))
+
+from main import create_app
